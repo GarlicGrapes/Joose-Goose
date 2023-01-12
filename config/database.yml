@@ -80,7 +80,10 @@ test:
 # for a full overview on how database connection configuration can be specified.
 #
 production:
+  # <<: *default
+  # database: mtg_deckbuilder_production
+  # username: mtg_deckbuilder
+  # password: <%= ENV["MTG_DECKBUILDER_DATABASE_PASSWORD"] %>
+  production:
   <<: *default
-  database: mtg_deckbuilder_production
-  username: mtg_deckbuilder
-  password: <%= ENV["MTG_DECKBUILDER_DATABASE_PASSWORD"] %>
+  url: <%= ENV['DATABASE_URL'] %>
