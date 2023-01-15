@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::API
     include ActionController::Cookies
+    before_action :authorized
 
     def hello_world
         session[:count] = (session[:count] || 0) + 1

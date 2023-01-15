@@ -1,58 +1,60 @@
-import logo from './logo.svg';
 import './App.css';
-
-// function App() {
-//   return (
-//     <div className="App">
-//       <header className="App-header">
-//         <img src={logo} className="App-logo" alt="logo" />
-//         <p>
-//           Edit <code>src/App.js</code> and save to reload.
-//         </p>
-//         <a
-//           className="App-link"
-//           href="https://reactjs.org"
-//           target="_blank"
-//           rel="noopener noreferrer"
-//         >
-//           Learn React
-//         </a>
-//       </header>
-//     </div>
-//   );
-// }
-
-// export default App;
 import { useState, useEffect } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { Switch, Route, NavLink, BrowserRouter} from "react-router-dom";
 import LoginForm from "./LoginForm";
+import HomePage from "./HomePage";
+import NavBar from "./NavBar";
+import SignupPage from "./SignupPage"
 
 function App() {
-  const [count, setCount] = useState(0);
 
+  const [user, setUser] = useState(null)
 
   useEffect(() => {
-    fetch("/hello")
-      .then((r) => r.json())
-      .then((data) => setCount(data.count));
-  }, []);
+    fetch('/auth')
+    .then(res =>  {
+      if(res.ok){
+        res.json().then(user => setUser(user))
+      }  
+      })
+  }, [])
+ 
+  // if(!user) return <LoginForm setUser={setUser}/>
 
   return (
-    <BrowserRouter>
-      <div className="App">
-        <Switch>
-          <Route path="/testing">
-            <h1>Test Route</h1>
-          </Route>
-          <Route path="/login">
-            <LoginForm/>
-          </Route>
+    <div>
+    <NavBar user={user} setUser={setUser} />
+        {user ? (
+          <Switch>
+
           <Route path="/">
-            <h1>Page Count: {count}</h1>
+          <HomePage
+              user={user}
+            />
           </Route>
+
+          </Switch>
+
+        ) : (
+
+        <Switch>
+
+          <Route path="/signup">
+            <SignupPage setUser={setUser}/>
+          </Route>
+
+          <Route path="/login">
+            <LoginForm setUser={setUser}/>
+          </Route>
+
+          <Route path="/">
+            <HomePage/>
+          </Route>
+
         </Switch>
-      </div>
-    </BrowserRouter>
+        )}
+    </div>
+    
   );
 }
 

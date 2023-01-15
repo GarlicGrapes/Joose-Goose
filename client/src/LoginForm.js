@@ -1,7 +1,7 @@
-import { useState} from "react";
+import { useState } from "react";
 // import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-function LoginForm() {
+function LoginForm({setUser}) {
 
     const blankLoginFormData = {
         "username" : "",
@@ -29,7 +29,8 @@ function LoginForm() {
             body: JSON.stringify(loginFormData)
         })
         .then((r) => r.json())
-        .then((data) => setLoginFormData(blankLoginFormData))
+        .then(setUser(loginFormData.username))
+        .then(setLoginFormData(blankLoginFormData))
     }
 
 
@@ -52,7 +53,7 @@ function LoginForm() {
 
         <label>Password</label>
         <input
-            type="text"
+            type="password"
             id="password"
             value={loginFormData.password}
             onChange={handleLoginFormChange}
