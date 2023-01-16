@@ -5,6 +5,7 @@ import LoginForm from "./LoginForm";
 import HomePage from "./HomePage";
 import NavBar from "./NavBar";
 import SignupPage from "./SignupPage"
+import AddDeckForm from "./AddDeckForm"
 
 function App() {
 
@@ -14,7 +15,11 @@ function App() {
     fetch('/auth')
     .then(res =>  {
       if(res.ok){
-        res.json().then(user => setUser(user))
+        
+        res.json().then(user => {
+          console.log(user)
+          setUser(user)
+        })
       }  
       })
   }, [])
@@ -24,13 +29,19 @@ function App() {
   return (
     <div>
     <NavBar user={user} setUser={setUser} />
+      <div>
         {user ? (
           <Switch>
 
           <Route path="/">
+
           <HomePage
               user={user}
             />
+          </Route>
+
+          <Route path="add-deck">
+            <AddDeckForm user={user}/>
           </Route>
 
           </Switch>
@@ -39,6 +50,7 @@ function App() {
 
         <Switch>
 
+          
           <Route path="/signup">
             <SignupPage setUser={setUser}/>
           </Route>
@@ -47,12 +59,17 @@ function App() {
             <LoginForm setUser={setUser}/>
           </Route>
 
+
+
           <Route path="/">
-            <HomePage/>
+            <HomePage user={user}/>
           </Route>
+
+
 
         </Switch>
         )}
+        </div>
     </div>
     
   );

@@ -2,35 +2,26 @@ import React from "react";
 import {useState} from "react";
 
 
-function SignupPage({setUser}) {
+function SignupPage({onLogin}) {
 
-    const blankSignupFormData = {
-        "username": "",
-        "password": ""
-    }
-
-    const [signupFormData, setSignupFormData] = useState(blankSignupFormData)
-
-    function handleSignupFormChange(e) {
-        const key = e.target.id
-        setSignupFormData({
-            ...signupFormData, 
-            [key]: e.target.value
-        })
-    }
+    const [username, setUsername] = useState("")
+    const [password, setPassword] = useState("")
+    const [errors, setErrors] = useState([])
 
     function handleSignupSubmit(e) {
         e.preventDefault()
+        setErrors([])
         fetch("/signup", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify(signupFormData),
+            body: JSON.stringify({ username, password }),
         }).then((res) => {
             if (res.ok) {
-                res.json().then((user) => setUser(user.username))
-                .then(setSignupFormData(blankSignupFormData))
+                res.json().then((user) => onLogin(user)) 
+            } else {
+                res.json().then((er) => setErrors(er.errors))
             }
         })
     }
@@ -44,8 +35,8 @@ function SignupPage({setUser}) {
         <input 
         type="text"
         id="username"
-        value={signupFormData.username}
-        onChange={handleSignupFormChange}
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
         />
 
         <br/>
@@ -54,14 +45,19 @@ function SignupPage({setUser}) {
         <input
             type="password"
             id="password"
-            value={signupFormData.password}
-            onChange={handleSignupFormChange}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
         />
 
         <br/>
 
         <button type="submit">Sign Up</button>
 
+        <div className="errors list">
+            {errors.map((error) => (
+                <div key={error}>{error}</div>
+            ))}
+        </div>
         </form>
         </div>
 

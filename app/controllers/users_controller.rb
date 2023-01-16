@@ -1,10 +1,11 @@
 class UsersController < ApplicationController  
     wrap_parameters format: []
-    skip_before_action :authorized, only: :create
+    # skip_before_action :authorized, only: :create
     rescue_from ActiveRecord::RecordInvalid, with: :render_uprocessable_entity
 
     def show
         current_user = User.find_by(id: session[:user_id])
+        # byebug
         render json: current_user
     end
 
@@ -16,7 +17,7 @@ class UsersController < ApplicationController
     private 
 
     def user_params
-        params.permit(:username, :password)
+        params.permit(:username, :password, :img_url)
     end
 
     def render_uprocessable_entity(exception)
