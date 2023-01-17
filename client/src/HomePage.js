@@ -1,15 +1,17 @@
 import React from "react";
 import DeckContainer from "./DeckContainer"
 
-function HomePage({user}) {
+function HomePage({user, decks}) {
+    console.log(user)
     if(user) {
-        console.log("in Homepage!")
-        console.log(user)
         return (
         <div>
-        <h1>{`Welcome, ${user.username}`}!</h1>
+        <h1>{`Welcome, ${user.username}`}!         
+        <img src={user.img_url} height="50px"/>
+        </h1>
+
         <div>
-        <DeckContainer decks={user.decks}/>
+        <DeckContainer decks={decks}/>
         </div>
         </div>
         )

@@ -1,16 +1,23 @@
-import {useState, useEffect} from "react"
+import React, {useState, useEffect} from "react";
+import { useHistory } from "react-router";
 
 
-function AddDeckForm({user}) {
+function AddDeckForm({handleNewDeck}) {
 
     const blankDeckForm = {
-        "user_id": user.id,
         "title":"",
-        "format":""
+        "format":"Standard"
     }
     
     const [deckForm, setDeckForm] = useState(blankDeckForm)
-
+    const [errors, setErrors] = useState([])
+    const history = useHistory()
+    const formats = ["Standard", "Explorer", "Historic", "Brawl", "Casual"]
+    
+    const formatMap = formats.map((format) => {
+        return <option key={format} value={format}>{format}</option>
+    })
+    
     function handleDeckFormChange(e) {
         const key = e.target.id
         setDeckForm({
@@ -21,6 +28,7 @@ function AddDeckForm({user}) {
 
     function handleNewDeckSubmit(e) {
         e.preventDefault()
+        console.log(deckForm)
         fetch('/decks', {
             method: "POST",
             headers: {
@@ -29,13 +37,22 @@ function AddDeckForm({user}) {
             },
             body: JSON.stringify(deckForm)
         })
-        .then((r) => r.json())
-    }
+        .then((res) => {
+            if (res) {
+                handleNewDeck(deckForm)
+                history.push("/")
+            } else {
+                res.json()
+                .then(er => setErrors(er.errors))
+            }
+        })
+    }   
 
     return (
         <div>
             <h2>Add Deck</h2>
             <form onSubmit={handleNewDeckSubmit}>
+            
             <label>Deck Title</label>
             <input 
                 type="text"
@@ -43,15 +60,20 @@ function AddDeckForm({user}) {
                 value={deckForm.title}
                 onChange={handleDeckFormChange}
             />
-            {/* <label>Format</label>
-                <select className="dropdown" id="format" value={movieFormData.director_id} onChange={(e) => handleMovieChange(e)} >
-                    {directorsMap}
-                </select> */}
 
+            <br/>
 
+            <label>Format</label>
+                <select className="dropdown" id="format" value={deckForm.format} onChange={(e) => handleDeckFormChange(e)} >
+                    {formatMap}
+                </select>
+
+            <br/>
+            <button type="submit">Create Deck</button>
             </form>
         </div>
+
     )
 }
 
-export default AddDeckForm
+export default AddDeckForm;

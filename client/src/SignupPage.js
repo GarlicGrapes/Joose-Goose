@@ -6,11 +6,11 @@ function SignupPage({onLogin}) {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
-    const [errors, setErrors] = useState([])
+    // const [errors, setErrors] = useState([])
 
     function handleSignupSubmit(e) {
         e.preventDefault()
-        setErrors([])
+        // setErrors([])
         fetch("/signup", {
             method: "POST",
             headers: {
@@ -20,9 +20,10 @@ function SignupPage({onLogin}) {
         }).then((res) => {
             if (res.ok) {
                 res.json().then((user) => onLogin(user)) 
-            } else {
-                res.json().then((er) => setErrors(er.errors))
             }
+                // } else {
+            //     res.json().then((er) => setErrors([er.errors]))
+            // }
         })
     }
 
@@ -54,9 +55,9 @@ function SignupPage({onLogin}) {
         <button type="submit">Sign Up</button>
 
         <div className="errors list">
-            {errors.map((error) => (
+            {/* {errors.map((error) => (
                 <div key={error}>{error}</div>
-            ))}
+            ))} */}
         </div>
         </form>
         </div>

@@ -1,14 +1,18 @@
 import { useState } from "react";
+import { useHistory } from "react-router";
 // import { BrowserRouter, Switch, Route } from "react-router-dom";
 
-function LoginForm({setUser}) {
-
+function LoginForm({onLogin, setUser}) {
+//setUser
     const blankLoginFormData = {
         "username" : "",
-        "password" : ""
+        "password" : "",
+        "format" : "Standard"
     }
 
     const [loginFormData, setLoginFormData] = useState(blankLoginFormData)
+    const [errors, setErrors] = useState([])
+    const history = useHistory()
 
     function handleLoginFormChange(e) {
         const key = e.target.id
@@ -28,17 +32,41 @@ function LoginForm({setUser}) {
             },
             body: JSON.stringify(loginFormData)
         })
-        .then((r) => r.json())
-        .then(setUser(loginFormData.username))
-        .then(setLoginFormData(blankLoginFormData))
+        .then((r) => {
+            if(r.ok) {
+                r.json()
+                .then((user) => onLogin(user))
+            } else {
+                r.json()
+                .then((er) => setErrors(er.errors))
+            }
+        })
+        // .then(setLoginFormData(blankLoginFormData))
+        // .then((r) => console.log(r))
+        // .then(setUser(loginFormData))
+        // .then(onLogin(loginFormData))
+        .then(history.push("/"))
     }
+
+    // useEffect(() => {
+    //     fetch('/auth')
+    //     .then(res =>  {
+    //       if(res.ok){
+    //         res.json().then(user => {
+    //           console.log(user)
+    //           setUser(user)
+    //         })
+    //       }})
+    //   }, [])
 
 
 
     return(
-        <form onSubmit={handleLoginSubmit}>
+        <div>
 
         <h2> Login </h2>
+
+        <form onSubmit={handleLoginSubmit}>
 
         <label>Username</label>
 
@@ -67,6 +95,12 @@ function LoginForm({setUser}) {
         />
 
         </form>
+        <div>
+            {errors.map((er) => (
+                <li key={er}>{er}</li>
+            ))}
+        </div>
+        </div>
 
 
     )

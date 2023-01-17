@@ -1,47 +1,68 @@
 import './App.css';
 import { useState, useEffect } from "react";
-import { Switch, Route, NavLink, BrowserRouter} from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import HomePage from "./HomePage";
 import NavBar from "./NavBar";
 import SignupPage from "./SignupPage"
 import AddDeckForm from "./AddDeckForm"
+import DeckPage from "./DeckPage"
 
 function App() {
 
   const [user, setUser] = useState(null)
+  const [decks, setDecks] = useState([])
+  const [errors, setErrors] = useState([])
+
 
   useEffect(() => {
     fetch('/auth')
     .then(res =>  {
       if(res.ok){
-        
         res.json().then(user => {
-          console.log(user)
           setUser(user)
+          setDecks(user.decks)
         })
-      }  
-      })
+      }})
   }, [])
+
+  function onLogin(currentUser) {
+    setUser(currentUser)
+  }
+
+  function onNewDeck(newDeck) {
+    setDecks(...decks, newDeck)
+    // setDecks(newDeck)
+    // setUser(...user, newDeck)
+  }
  
   // if(!user) return <LoginForm setUser={setUser}/>
 
   return (
     <div>
     <NavBar user={user} setUser={setUser} />
+    
       <div>
         {user ? (
           <Switch>
 
-          <Route path="/">
-
+          <Route exact path="/">
           <HomePage
               user={user}
+              decks={decks}
             />
           </Route>
 
-          <Route path="add-deck">
-            <AddDeckForm user={user}/>
+
+          <Route exact path="/add-deck">
+            <AddDeckForm
+             decks={decks}
+             handleNewDeck={onNewDeck}
+             />
+          </Route>        
+
+          <Route path="decks/:id">
+            <DeckPage/>
           </Route>
 
           </Switch>
@@ -50,22 +71,17 @@ function App() {
 
         <Switch>
 
-          
-          <Route path="/signup">
-            <SignupPage setUser={setUser}/>
+          <Route exact path="/signup">
+            <SignupPage setUser={setUser} onLogin={onLogin}/>
           </Route>
 
-          <Route path="/login">
-            <LoginForm setUser={setUser}/>
+          <Route exact path="/login">
+            <LoginForm setUser={setUser} onLogin={onLogin}/>
           </Route>
 
-
-
-          <Route path="/">
-            <HomePage user={user}/>
+          <Route exact path="/">
+            <HomePage user={user} deck={decks}/>
           </Route>
-
-
 
         </Switch>
         )}

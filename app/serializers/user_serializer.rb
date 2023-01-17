@@ -1,4 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :username
+  attributes :username, :img_url
   has_many :decks
 end

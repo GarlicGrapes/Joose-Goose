@@ -1,6 +1,6 @@
 import React from "react";
 // import {useState} from "react";
-import {Link} from "react-router-dom"
+import {Link, NavLink} from "react-router-dom"
 
 function NavBar({user, setUser}) {
 
@@ -19,21 +19,25 @@ function NavBar({user, setUser}) {
 
     return (
 
-        <header className="Nav">
+        <header className="nav">
 
             <div>
-                <Link to="/">Home</Link>
+                
 
                 {user ? ( 
-                    <div>
-                    <button onClick={handleLogoutClick}>Logout</button>
-                        <Link to="/add-deck">Add Deck</Link>  
+                    <div >
+                        <Link to="/" className="navlink">Home</Link>
+                        <NavLink to="/add-deck" className="navlink">Add Deck</NavLink>  
+                        <button onClick={handleLogoutClick} className="navlink">Logout</button>
                     </div>
+                    
                     ) : (
-                    <div>    
-                        <Link to="/signup">Signup</Link>
-                        <Link to="/login">Login</Link>       
-                    </div>
+                        <div>
+                        <Link to="/" className="navlink">Home</Link>
+                        <Link to="/signup" className="navlink">Signup</Link>
+                        <Link to="/login" className="navlink">Login</Link>    
+                        </div>   
+                    
                 )}
             </div>
 
