@@ -1,3 +1,3 @@
 class CardSerializer < ActiveModel::Serializer
-  attributes :id, :name, :cmc, :img _url
+  attributes :id, :name, :cmc, :img_url
 end

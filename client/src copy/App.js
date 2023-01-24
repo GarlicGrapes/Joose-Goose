@@ -6,7 +6,8 @@ import HomePage from "./HomePage";
 import NavBar from "./NavBar";
 import SignupPage from "./SignupPage"
 import AddDeckForm from "./AddDeckForm"
-import DeckShow from './DeckShow';
+import DecksPage from "./DecksPage"
+import DecksList from "./DecksList"
 import AllDecksPage from './AllDecksPage';
 
 function App() {
@@ -33,6 +34,13 @@ function App() {
     setUser(currentUser)
   }
 
+  // function onNewDeck(newDeck) {
+  //   setDecks(...decks, newDeck)
+
+  // }
+ 
+  // if(!user) return <LoginForm setUser={setUser}/>
+
   return (
     <div>
     <NavBar user={user} setUser={setUser} />
@@ -41,27 +49,39 @@ function App() {
         {user ? (
           <Switch>
 
-            
-            <Route exact path="/">
-              <HomePage
-                user={user}
-              />
+          {/* <Route path="/decks">
+            <DecksPage decks={decks}/>
+            <Route path=":id" element={<DecksList/>}>
             </Route>
+          </Route> */}
 
-            <Route exact path="/decks/:id">
-              <DeckShow user={user}/>
+          {/* <Route path="/decks">
+            <AllDecksPage/>
+            <Route path=":id" element={<DecksList/>}>
             </Route>
+          </Route> */}
+          
+          <Route exact path="/">
+          <HomePage
+              user={user}
+              // decks={decks}
+            />
+          </Route>
 
-            <Route exact path="/add-deck">
-              <AddDeckForm
-              //  decks={decks}
-              //  handleNewDeck={onNewDeck}
-              />
-            </Route>   
+
+          <Route exact path="/add-deck">
+            <AddDeckForm
+            //  decks={decks}
+            //  handleNewDeck={onNewDeck}
+             />
+          </Route>        
+
+
 
           </Switch>
 
-        ) : (
+        ) 
+        : (
 
         <Switch>
 
@@ -73,17 +93,11 @@ function App() {
             <LoginForm setUser={setUser} onLogin={onLogin}/>
           </Route>
 
-          {/* <Route exact path="/">
+          <Route exact path="/">
             <HomePage 
             user={user} 
             // deck={decks}
             />
-            <Route></Route>
-          </Route> */}
-
-          <Route exact path="/decks">
-            <Route index element={<AllDecksPage user={user}/>}/>
-            <Route path=":id" element={<DeckShow/>} />
           </Route>
 
         </Switch>

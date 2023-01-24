@@ -12,11 +12,13 @@ Rails.application.routes.draw do
   resources :sessions, only: [:create, :destroy]
 
   get '/decks', to: "decks#index"
-  post '/signup', to: "users#create"
   post '/decks', to: "decks#create"
   get '/decks/:id', to: "decks#show"
   post '/login', to: "sessions#create"
-  get '/auth', to: "users#show"
-  # get '/me', to: "users#show"
   delete '/logout', to: "sessions#destroy"
+  post '/signup', to: "users#create"
+  get "/auth", to: "users#show"
+  patch '/deck_card/:id', to: "deck_cards#update"
+  # get '/me', to: "users#show"
+
 end
