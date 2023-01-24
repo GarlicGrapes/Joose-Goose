@@ -42,6 +42,7 @@ function DeckShow({user}) {
             }, body: JSON.stringify(newCardData),
         })        
         .then((res) => res.json())
+        .then((setDeck(...deck, newCardData)))
         // .then(setDeck(...deck, newCardData))
     }
 
@@ -53,6 +54,18 @@ function DeckShow({user}) {
                 history.push("/")
             }}
         )
+    }
+
+    function handleDeleteCard(deletedCard){
+        console.log(deletedCard)
+        fetch(`/deck_cards/${deletedCard.id}`, {
+        method: "DELETE" })
+        .then((res) => {
+            if(res) {
+                const newDeck = deck.filter(card => card.id == deletedCard.id)
+                setDeck(newDeck)
+            }
+        })
     }
 
     if (deck && user.username == deck.user.username) {        
@@ -74,15 +87,20 @@ function DeckShow({user}) {
             <AddCardToDeckForm onDeckCardSubmit={updateDeckCards}/>
             <button onClick={handleDeleteDeck}>Delete Deck</button>
         </div>)
+
     } else if (deck && user.username != deck.user.username) {
+
         const cardList = deck.deck_cards.map(card => {
             return(
                 <CardItem 
                 key={card.id}
                 deck_card={card} 
+                onUpdateCard = {updateCard}
+                onDeleteCard={handleDeleteCard}
                 />
             )
             })
+
             return(
                 <div>
                     <h4>{deck.title}</h4> 

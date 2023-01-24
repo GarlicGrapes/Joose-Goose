@@ -7,8 +7,8 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :create]
   resources :decks, only: [:index, :show, :create, :destroy]
-  resources :cards
-  resources :deck_cards
+  resources :cards, only: [:index, :create]
+  resources :deck_cards, only: [:update, :create, :destroy]
   resources :sessions, only: [:create, :destroy]
 
   get '/decks', to: "decks#index"
@@ -20,6 +20,6 @@ Rails.application.routes.draw do
   get "/auth", to: "users#show"
   patch '/deck_card/:id', to: "deck_cards#update"
   post '/cards', to: "cards#create"
-  # get '/me', to: "users#show"
+  get '/me', to: "users#show"
 
 end
