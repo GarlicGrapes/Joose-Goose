@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
 
   resources :users, only: [:show, :create]
-  resources :decks, only: [:index, :show, :create]
+  resources :decks, only: [:index, :show, :create, :destroy]
   resources :cards
   resources :deck_cards
   resources :sessions, only: [:create, :destroy]
@@ -19,6 +19,7 @@ Rails.application.routes.draw do
   post '/signup', to: "users#create"
   get "/auth", to: "users#show"
   patch '/deck_card/:id', to: "deck_cards#update"
+  post '/cards', to: "cards#create"
   # get '/me', to: "users#show"
 
 end

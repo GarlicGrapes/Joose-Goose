@@ -7,7 +7,7 @@ import NavBar from "./NavBar";
 import SignupPage from "./SignupPage"
 import AddDeckForm from "./AddDeckForm"
 import DeckShow from './DeckShow';
-import AllDecksPage from './AllDecksPage';
+import AddCardForm from './AddCardForm'
 
 function App() {
 
@@ -57,6 +57,13 @@ function App() {
               //  decks={decks}
               //  handleNewDeck={onNewDeck}
               />
+            </Route>  
+
+            <Route exact path="/add-card">
+              <AddCardForm
+              //  decks={decks}
+              //  handleNewDeck={onNewDeck}
+              />
             </Route>   
 
           </Switch>
@@ -73,17 +80,11 @@ function App() {
             <LoginForm setUser={setUser} onLogin={onLogin}/>
           </Route>
 
-          {/* <Route exact path="/">
+          <Route exact path="/">
             <HomePage 
             user={user} 
             // deck={decks}
             />
-            <Route></Route>
-          </Route> */}
-
-          <Route exact path="/decks">
-            <Route index element={<AllDecksPage user={user}/>}/>
-            <Route path=":id" element={<DeckShow/>} />
           </Route>
 
         </Switch>

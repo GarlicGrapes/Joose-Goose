@@ -1,13 +1,15 @@
 import React from "react"
 
-function CardItem({deck_card, incrementCard, decrementCard}){
+function CardItem({deck_card, updateCard}){
 
-    function handleMinusButtonClick(e) {
-        
+    function handleMinusButtonClick() {
+        deck_card.quantity --
+        updateCard(deck_card)
     }
 
-    function handlePlusButtonClick(e) {
-        console.log(e)
+    function handlePlusButtonClick() {
+        deck_card.quantity ++
+        updateCard(deck_card)
     }
     
     return(

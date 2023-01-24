@@ -87,13 +87,18 @@ class DecksController < ApplicationController
     
         def show
             deck = find_deck
-            # byebug
             render json: deck, status: :ok
         end
     
         def create
             deck = @current_user.decks.create!(deck_params)
             render json: deck, status: :created
+        end
+
+        def destroy
+            deck = find_deck
+            deck.destroy
+            render :no_head
         end
     
         private
