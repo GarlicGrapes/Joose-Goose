@@ -1,19 +1,19 @@
 import React from "react"
 
-function CardItem({deck_card, onUpdateCard, onDeleteCard}){
+function CardItem({deck_card, updateCard, deleteCard}){
 
     function handleMinusButtonClick() {
         deck_card.quantity --
-        onUpdateCard(deck_card)
+        updateCard(deck_card)
     }
 
     function handlePlusButtonClick() {
         deck_card.quantity ++
-        onUpdateCard(deck_card)
+        updateCard(deck_card)
     }
     
     function handleCardDeleteClick(){
-        onDeleteCard(deck_card)
+        deleteCard(deck_card)
     }
 
 

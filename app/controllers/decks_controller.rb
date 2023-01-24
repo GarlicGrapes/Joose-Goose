@@ -98,7 +98,7 @@ class DecksController < ApplicationController
         def destroy
             deck = find_deck
             deck.destroy
-            render :no_head
+            :no_head
         end
     
         private

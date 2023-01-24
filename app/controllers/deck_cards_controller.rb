@@ -13,6 +13,12 @@ class DeckCardsController < ApplicationController
         render json: deck_card
     end
 
+    def destroy
+        deck_card = find_deck_card
+        deck_card.destroy
+        :no_head
+    end
+
     private
 
     def deck_card_params

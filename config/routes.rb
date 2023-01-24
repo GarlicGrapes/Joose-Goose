@@ -11,15 +11,14 @@ Rails.application.routes.draw do
   resources :deck_cards, only: [:update, :create, :destroy]
   resources :sessions, only: [:create, :destroy]
 
-  get '/decks', to: "decks#index"
-  post '/decks', to: "decks#create"
-  get '/decks/:id', to: "decks#show"
   post '/login', to: "sessions#create"
   delete '/logout', to: "sessions#destroy"
   post '/signup', to: "users#create"
   get "/auth", to: "users#show"
-  patch '/deck_card/:id', to: "deck_cards#update"
-  post '/cards', to: "cards#create"
   get '/me', to: "users#show"
+  
+  # patch '/deck_card/:id', to: "deck_cards#update"
+  # post '/cards', to: "cards#create"
+
 
 end

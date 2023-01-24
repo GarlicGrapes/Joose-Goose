@@ -6,8 +6,14 @@ import AddCardToDeckForm from "./AddCardToDeckForm"
 
 
 function DeckShow({user}) {
-    
-    const [deck, setDeck] = useState(null)
+    const blankDeckState = {
+        "id": 0,
+        "title": "",
+        "user": {"username": "", "img_url": ""},
+        "deck_cards": []
+    }
+
+    const [deck, setDeck] = useState(blankDeckState)
     const deckId = useParams()
     const history = useHistory()
 
@@ -17,19 +23,20 @@ function DeckShow({user}) {
         .then(res => setDeck(res))
     }, [])
 
-    function updateCard(updatedCard) {
-        console.log(updatedCard)
-        fetch(`/deck_cards/${updatedCard.id}`, {
+    function updateCard(updatedDeckCard) {
+        console.log(updatedDeckCard.card)
+        fetch(`/deck_cards/${updatedDeckCard.id}`, {
             method: "PATCH",
             headers: {
                 "Content-Type": "application/json",
-            }, body: JSON.stringify(updatedCard),
+            }, body: JSON.stringify(updatedDeckCard),
         })
         .then((res) => res.json())
         // .then(setDeck(...deck))
     }
 
     function updateDeckCards(newCard){
+        console.log(deck)
         const newCardData = {
             card_id: newCard.id,
             deck_id: deck.id,
@@ -42,7 +49,10 @@ function DeckShow({user}) {
             }, body: JSON.stringify(newCardData),
         })        
         .then((res) => res.json())
-        .then((setDeck(...deck, newCardData)))
+        .then((setDeck({...deck,
+            deck_cards: newCardData})
+            ))
+        .then(console.log(deck))
         // .then(setDeck(...deck, newCardData))
     }
 
@@ -56,7 +66,7 @@ function DeckShow({user}) {
         )
     }
 
-    function handleDeleteCard(deletedCard){
+    function deleteCard(deletedCard){
         console.log(deletedCard)
         fetch(`/deck_cards/${deletedCard.id}`, {
         method: "DELETE" })
@@ -75,6 +85,7 @@ function DeckShow({user}) {
             key={card.id}
             deck_card={card}  
             updateCard={updateCard}
+            deleteCard={deleteCard}
             />
         )
         })
@@ -95,8 +106,6 @@ function DeckShow({user}) {
                 <CardItem 
                 key={card.id}
                 deck_card={card} 
-                onUpdateCard = {updateCard}
-                onDeleteCard={handleDeleteCard}
                 />
             )
             })
