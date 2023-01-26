@@ -23,7 +23,7 @@ function DeckShow({user}) {
         .then(res => setDeck(res))
     }, [])
 
-    function updateCard(updatedDeckCard) {
+    function updateCard(updatedDeckCard, edit) {
         console.log(updatedDeckCard.card)
         fetch(`/deck_cards/${updatedDeckCard.id}`, {
             method: "PATCH",
@@ -32,11 +32,21 @@ function DeckShow({user}) {
             }, body: JSON.stringify(updatedDeckCard),
         })
         .then((res) => res.json())
-        // .then(setDeck(...deck))
+        .then((res) => {
+            const mappedCards = deck.deck_cards.map(deck_card => {
+                if (deck_card.id === res.id && edit === 1) {
+                    return({...deck_card, quantity: (deck_card.quantity ++)})
+                } else if (deck_card.id === res.id && edit === (-1)) {
+                    return({...deck_card, quantity: (deck_card.quantity --)})
+                } else {
+                    return deck_card
+                }
+            })
+            setDeck({...deck, deck_cards: mappedCards})
+        })
     }
 
     function updateDeckCards(newCard){
-        console.log(deck)
         const newCardData = {
             card_id: newCard.id,
             deck_id: deck.id,
@@ -49,11 +59,9 @@ function DeckShow({user}) {
             }, body: JSON.stringify(newCardData),
         })        
         .then((res) => res.json())
-        .then((setDeck({...deck,
-            deck_cards: newCardData})
-            ))
-        .then(console.log(deck))
-        // .then(setDeck(...deck, newCardData))
+        .then((res) => (setDeck({...deck,
+            deck_cards: [...deck.deck_cards, res]})
+        ))
     }
 
     function handleDeleteDeck(){
@@ -72,13 +80,15 @@ function DeckShow({user}) {
         method: "DELETE" })
         .then((res) => {
             if(res) {
-                const newDeck = deck.filter(card => card.id == deletedCard.id)
-                setDeck(newDeck)
+                const newDeck = deck.deck_cards.filter(card => card.id != deletedCard.id)
+                setDeck({...deck,
+                    deck_cards: newDeck})
             }
         })
     }
 
-    if (deck && user.username == deck.user.username) {        
+    
+    if (deck && user && user.username === deck.user.username) {        
         const cardList = deck.deck_cards.map(card => {
         return(
             <UserCardItem 
@@ -99,7 +109,7 @@ function DeckShow({user}) {
             <button onClick={handleDeleteDeck}>Delete Deck</button>
         </div>)
 
-    } else if (deck && user.username != deck.user.username) {
+    } else if (deck && user.username !== deck.user.username) {
 
         const cardList = deck.deck_cards.map(card => {
             return(

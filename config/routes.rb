@@ -17,8 +17,4 @@ Rails.application.routes.draw do
   get "/auth", to: "users#show"
   get '/me', to: "users#show"
   
-  # patch '/deck_card/:id', to: "deck_cards#update"
-  # post '/cards', to: "cards#create"
-
-
 end

@@ -9,7 +9,6 @@ function AddCardToDeckForm({onDeckCardSubmit}) {
     useEffect(() => {
         fetch('/cards')
         .then(r => r.json())
-        // .then(r => console.log(r))
         .then(r => setCardList(r))
     },[])
 
@@ -18,6 +17,7 @@ function AddCardToDeckForm({onDeckCardSubmit}) {
     function handleCardFormChange(e) {
         const newCard = cardList.find((card) => card.id == e.target.value)
         setCurrentCard(newCard)
+        console.log(currentCard)
     }
 
     function handleDeckCardSubmit(e){

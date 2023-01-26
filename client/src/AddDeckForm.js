@@ -39,7 +39,6 @@ function AddDeckForm({handleNewDeck}) {
         })
         .then((res) => {
             if (res) {
-                // handleNewDeck(deckForm)
                 history.push("/")
             } else {
                 res.json()

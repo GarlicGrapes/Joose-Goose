@@ -4,16 +4,17 @@ function CardItem({deck_card, updateCard, deleteCard}){
 
     function handleMinusButtonClick() {
         deck_card.quantity --
-        updateCard(deck_card)
+        updateCard(deck_card, (-1))
     }
 
     function handlePlusButtonClick() {
         deck_card.quantity ++
-        updateCard(deck_card)
+        updateCard(deck_card, 1)
     }
     
     function handleCardDeleteClick(){
         deleteCard(deck_card)
+        // console.log(deck_card)
     }
 
 

@@ -32,6 +32,7 @@ function App() {
   function onLogin(currentUser) {
     setUser(currentUser)
   }
+  console.log(user)
 
   return (
     <div>
@@ -54,15 +55,11 @@ function App() {
 
             <Route exact path="/add-deck">
               <AddDeckForm
-              //  decks={decks}
-              //  handleNewDeck={onNewDeck}
               />
             </Route>  
 
             <Route exact path="/add-card">
               <AddCardForm
-              //  decks={decks}
-              //  handleNewDeck={onNewDeck}
               />
             </Route>   
 
@@ -83,7 +80,6 @@ function App() {
           <Route exact path="/">
             <HomePage 
             user={user} 
-            // deck={decks}
             />
           </Route>
 
