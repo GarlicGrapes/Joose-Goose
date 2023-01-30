@@ -16,7 +16,9 @@ function App() {
   const [errors, setErrors] = useState([])
   const history = useHistory()
 
-  useEffect(() => {
+  useEffect(() => { auth() },[])
+
+  function auth() {
     fetch('/auth')
     .then(res =>  {
       if(res.ok){
@@ -29,7 +31,7 @@ function App() {
         })
       }
     })
-},[])
+  }
 
   function onLogin(username, password) {
     fetch('/login', {
@@ -44,6 +46,7 @@ function App() {
         if(r.ok) {
             r.json()
             .then(setUser(username))
+            .then(auth())
         } else {
             r.json()
             .then((er) => setErrors(er.errors))
