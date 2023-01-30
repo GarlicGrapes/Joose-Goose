@@ -1,6 +1,7 @@
 import './App.css';
 import { useState, useEffect } from "react";
 import { Switch, Route } from "react-router-dom";
+import {useHistory} from "react-router"
 import LoginForm from "./LoginForm";
 import HomePage from "./HomePage";
 import NavBar from "./NavBar";
@@ -13,6 +14,7 @@ function App() {
 
   const [user, setUser] = useState(null)
   const [errors, setErrors] = useState([])
+  const history = useHistory()
 
   useEffect(() => {
     fetch('/auth')
@@ -29,10 +31,29 @@ function App() {
     })
 },[])
 
-  function onLogin(currentUser) {
-    setUser(currentUser)
+  function onLogin(username, password) {
+    fetch('/login', {
+        method: "POST",
+        headers: {
+            "Content-Type" : "application/json",
+            "Accept" : "application/json"
+        },
+        body: JSON.stringify({username: username, password: password})
+    })
+    .then((r) => {
+        if(r.ok) {
+            r.json()
+            .then(setUser(username))
+        } else {
+            r.json()
+            .then((er) => setErrors(er.errors))
+        }
+    })
+    .then(history.push("/"))
   }
-  console.log(user)
+
+  
+
 
   return (
     <div>

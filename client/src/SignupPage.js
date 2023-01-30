@@ -1,12 +1,17 @@
 import React from "react";
 import {useState} from "react";
+import { useHistory } from "react-router";
+
+
 
 
 function SignupPage({onLogin}) {
 
     const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
+    // const [imgUrl, setImgUrl] = useState("")
     const [errors, setErrors] = useState([])
+    const history = useHistory()
 
     function handleSignupSubmit(e) {
         e.preventDefault()
@@ -17,10 +22,11 @@ function SignupPage({onLogin}) {
             },
             body: JSON.stringify({ username, password }),
         }).then((res) => {
+            console.log(res)
             if (res.ok) {
-                res.json().then((user) => onLogin(user)) 
+                res.json().then(onLogin(username, password))
             } else {
-                res.json().then((er) => setErrors([er.errors]))
+                setErrors(["There is already a user with that name. Please try another."])
             }
         })
     }
@@ -49,6 +55,14 @@ function SignupPage({onLogin}) {
         />
 
         <br/>
+
+        {/* <label>Avatar Image URL</label>
+        <input
+            type="text"
+            id="avatar"
+            value={imgUrl}
+            onChange={(e) => setImgUrl(e.target.value)}
+        /> */}
 
         <button type="submit">Sign Up</button>
 

@@ -15,7 +15,12 @@ function HomePage({user}) {
         </div>
         )
     } else {
-        return <h1> Login or Signup to continue </h1>
+        return (
+            <div className="greeting">
+                <h1>Welcome to MTG Deckbuilder!</h1>
+                <h2> Login or Signup to continue </h2>
+            </div>
+        )
     }
 }
 

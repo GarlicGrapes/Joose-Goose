@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
-// import { BrowserRouter, Switch, Route } from "react-router-dom";
 
 function LoginForm({onLogin, setUser}) {
-//setUser
+
     const blankLoginFormData = {
         "username" : "",
         "password" : "",
@@ -33,8 +32,6 @@ function LoginForm({onLogin, setUser}) {
             body: JSON.stringify(loginFormData)
         })
         .then((r) => {
-            // console.log("IN LOGIN FORM")
-            // console.log(r)
             if(r.ok) {
                 r.json()
                 .then((user) => onLogin(user))
@@ -43,24 +40,8 @@ function LoginForm({onLogin, setUser}) {
                 .then((er) => setErrors(er.errors))
             }
         })
-        // .then(setLoginFormData(blankLoginFormData))
-        // .then((r) => console.log(r))
-        // .then(setUser(loginFormData))
-        // .then(onLogin(loginFormData))
         .then(history.push("/"))
     }
-
-    // useEffect(() => {
-    //     fetch('/auth')
-    //     .then(res =>  {
-    //       if(res.ok){
-    //         res.json().then(user => {
-    //           console.log(user)
-    //           setUser(user)
-    //         })
-    //       }})
-    //   }, [])
-
 
 
     return(
