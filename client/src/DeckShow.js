@@ -16,7 +16,7 @@ function DeckShow({user}) {
     const [deck, setDeck] = useState(blankDeckState)
     const deckId = useParams()
     const history = useHistory()
-    const match = useRouteMatch()
+    // const match = useRouteMatch()
 
     useEffect(() => {
         fetch(`/decks/${deckId.id.toString()}`)
@@ -81,7 +81,7 @@ function DeckShow({user}) {
         method: "DELETE" })
         .then((res) => {
             if(res) {
-                const newDeck = deck.deck_cards.filter(card => card.id != deletedCard.id)
+                const newDeck = deck.deck_cards.filter(card => card.id !== deletedCard.id)
                 setDeck({...deck,
                     deck_cards: newDeck})
             }
