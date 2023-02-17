@@ -6,7 +6,6 @@ function LoginForm({onLogin, setUser}) {
     const blankLoginFormData = {
         "username" : "",
         "password" : "",
-        "format" : "Standard"
     }
 
     const [loginFormData, setLoginFormData] = useState(blankLoginFormData)
@@ -23,24 +22,7 @@ function LoginForm({onLogin, setUser}) {
 
     function handleLoginSubmit(e) {
         e.preventDefault()
-        fetch('/login', {
-            method: "POST",
-            headers: {
-                "Content-Type" : "application/json",
-                "Accept" : "application/json"
-            },
-            body: JSON.stringify(loginFormData)
-        })
-        .then((r) => {
-            if(r.ok) {
-                r.json()
-                .then((user) => onLogin(user))
-            } else {
-                r.json()
-                .then((er) => setErrors(er.errors))
-            }
-        })
-        .then(history.push("/"))
+        onLogin(loginFormData.username, loginFormData.password)
     }
 
 
