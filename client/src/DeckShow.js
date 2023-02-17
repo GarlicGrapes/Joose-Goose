@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {useParams, useHistory } from "react-router-dom"
+import {useParams, useHistory, useRouteMatch, Route} from "react-router-dom"
 import CardItem from "./CardItem";
 import UserCardItem from "./UserCardItem"
 import AddCardToDeckForm from "./AddCardToDeckForm"
@@ -16,6 +16,7 @@ function DeckShow({user}) {
     const [deck, setDeck] = useState(blankDeckState)
     const deckId = useParams()
     const history = useHistory()
+    const match = useRouteMatch()
 
     useEffect(() => {
         fetch(`/decks/${deckId.id.toString()}`)
@@ -90,13 +91,13 @@ function DeckShow({user}) {
     
     if (deck && user && user.username === deck.user.username) {        
         const cardList = deck.deck_cards.map(card => {
-        return(
-            <UserCardItem 
-            key={card.id}
-            deck_card={card}  
-            updateCard={updateCard}
-            deleteCard={deleteCard}
-            />
+        return(          
+                <UserCardItem 
+                key={card.id}
+                deck_card={card}  
+                updateCard={updateCard}
+                deleteCard={deleteCard}
+                />
         )
         })
         return(

@@ -8,7 +8,10 @@ class DeckCardsController < ApplicationController
         render json: deck_card
     end
 
-    # READ OR INDEX
+    # def show
+    #     deck_card = find_deck_card
+    #     render json: deck_card
+    # end
 
     def create
         deck_card = DeckCard.create(deck_card_params)

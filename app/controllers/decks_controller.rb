@@ -95,6 +95,11 @@ class DecksController < ApplicationController
             render json: deck, status: :created
         end
 
+        # def update
+        #     deck = find_deck
+
+        # end
+
         def destroy
             deck = find_deck
             return render json: {error: "Not Authorized"}, status: :unauthorized unless deck.user_id == session[:user_id]
