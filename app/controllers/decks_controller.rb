@@ -97,6 +97,8 @@ class DecksController < ApplicationController
 
         def destroy
             deck = find_deck
+            return render json: {error: "Not Authorized"}, status: :unauthorized unless deck.user_id == session[:user_id]
+
             deck.destroy
             :no_head
         end

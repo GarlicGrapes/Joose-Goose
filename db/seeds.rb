@@ -34,11 +34,11 @@ Forest = Card.create(name: "Forest", img_url: "https://cards.scryfall.io/large/f
 
 
 puts "Adding Cards to Decks..."
-DeckBolt = DeckCard.create(deck: RDW, card: LightningBolt, quantity: 4)
-DeckMountain = DeckCard.create(deck: RDW, card: Mountain, quantity: 4)
-DeckGoblin = DeckCard.create(deck: RDW, card: GoblinGuide, quantity: 4)
-DeckCounterspell = DeckCard.create(deck: Nope, card: CounterSpell, quantity: 4)
-DeckDivination = DeckCard.create(deck: Nope, card: Divination, quantity: 4)
-DeckWindDrake = DeckCard.create(deck: Nope, card: WindDrake, quantity: 4)
-DeckIsland = DeckCard.create(deck: Nope, card: WindDrake, quantity: 4)
+DeckBolt = DeckCard.create(deck: RDW, card: LightningBolt, quantity: 4, user: RedPlayer)
+DeckMountain = DeckCard.create(deck: RDW, card: Mountain, quantity: 4, user: RedPlayer)
+DeckGoblin = DeckCard.create(deck: RDW, card: GoblinGuide, quantity: 4, user: RedPlayer)
+DeckCounterspell = DeckCard.create(deck: Nope, card: CounterSpell, quantity: 4, user: BluePlayer)
+DeckDivination = DeckCard.create(deck: Nope, card: Divination, quantity: 4, user: BluePlayer)
+DeckWindDrake = DeckCard.create(deck: Nope, card: WindDrake, quantity: 4, user: BluePlayer)
+DeckIsland = DeckCard.create(deck: Nope, card: WindDrake, quantity: 4, user: BluePlayer)
 
