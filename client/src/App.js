@@ -13,10 +13,14 @@ import AddCardForm from './AddCardForm'
 function App() {
 
   const [user, setUser] = useState(null)
+  const [decks, setDecks] = useState([])
   const [errors, setErrors] = useState([])
   const history = useHistory()
 
-  useEffect(() => { auth() },[])
+  useEffect(() => { 
+    auth() 
+    getDecks()
+  },[])
 
   function auth() {
     fetch('/auth')
@@ -55,6 +59,27 @@ function App() {
     .then(history.push("/"))
   }
 
+  function getDecks() {
+    fetch('/decks')
+        .then((res) => {
+            if(res.ok){      
+                res.json().then(decks => {
+                    setDecks(decks)
+                    console.log(decks)
+                    })
+                } else {
+                    console.log("failed to fetch from /decks")
+                }
+            }
+        )
+}
+
+function onNewDeck(newDeck){
+    console.log(newDeck)
+    setDecks([...decks, newDeck])
+    console.log(decks)
+    history.push('/')
+}
   
 
 
@@ -70,6 +95,7 @@ function App() {
             <Route exact path="/">
               <HomePage
                 user={user}
+                decks={decks}
               />
             </Route>
 
@@ -79,6 +105,7 @@ function App() {
 
             <Route exact path="/add-deck">
               <AddDeckForm
+              handleNewDeck={onNewDeck}
               />
             </Route>  
 

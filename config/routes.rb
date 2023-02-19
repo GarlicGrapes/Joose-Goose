@@ -16,5 +16,6 @@ Rails.application.routes.draw do
   post '/signup', to: "users#create"
   get "/auth", to: "users#show"
   get '/me', to: "users#show"
+  get '/usercards', to: "deck_cards#count"
   
 end

@@ -8,10 +8,14 @@ class DeckCardsController < ApplicationController
         render json: deck_card
     end
 
-    # def show
-    #     deck_card = find_deck_card
-    #     render json: deck_card
-    # end
+    def count
+        deckCard_array = @current_user.deck_cards
+        total = 0
+        # iterate through array, adding number to total
+        deckCard_array.each{|deckCard| total += deckCard.quantity}
+        byebug
+    end
+
 
     def create
         deck_card = DeckCard.create(deck_card_params)

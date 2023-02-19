@@ -111,7 +111,7 @@ class DecksController < ApplicationController
         private
     
         def deck_params
-            params.permit(:title, :format, :user_id)
+            params.permit(:id, :title, :format, :user_id)
         end
     
         def find_deck

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, {useState} from "react";
 import { useHistory } from "react-router";
 
 
@@ -28,7 +28,7 @@ function AddDeckForm({handleNewDeck}) {
 
     function handleNewDeckSubmit(e) {
         e.preventDefault()
-        console.log(deckForm)
+        // console.log(deckForm)
         fetch('/decks', {
             method: "POST",
             headers: {
@@ -38,8 +38,11 @@ function AddDeckForm({handleNewDeck}) {
             body: JSON.stringify(deckForm)
         })
         .then((res) => {
-            if (res) {
-                history.push("/")
+            if (res.ok) {
+                res.json().then((deck) => {
+                    handleNewDeck(deck)
+                })
+                // .then(history.push("/"))
             } else {
                 res.json()
                 .then(er => setErrors(er.errors))

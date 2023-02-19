@@ -1,7 +1,7 @@
 import React from "react";
 import AllDecksPage from "./AllDecksPage";
 
-function HomePage({user}) {
+function HomePage({user, decks}) {
     if(user) {
         return (
         <div>
@@ -10,7 +10,7 @@ function HomePage({user}) {
             </h1>
 
             <div>
-                <AllDecksPage/>
+                <AllDecksPage decks={decks}/>
             </div>
         </div>
         )
